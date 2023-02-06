@@ -31,3 +31,4 @@
 
  import "mouvements.java";
  import "matrice.java";
+ import "Case.java"

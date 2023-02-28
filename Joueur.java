@@ -9,24 +9,28 @@
  *      +suivant(p,d) modifie position de p si estlibre vrai
 
  */
-import "Case.java";
-import "direction.java"
+import Case.java;
+import Direction.java;
 
-public class mouvements implements direction{
+public class joueur implements Direction{
+
+    public joueur(int x, int y){
+
+    }
     
-    public mouvements(Case p, direction s) {
+    public mouvements(Case j, Direction s) {
         switch(s) {
             case NORD:
-                p.setY(getY() + 1);
+                j.setY(getY() + 1);
                 break;
             case SUD:
-                p.setY(getY() - 1);
+                j.setY(getY() - 1);
                 break;
             case EST:
-                p.setX(getX() + 1);
+                j.setX(getX() + 1);
                 break;
             case OUEST:
-                p.setX(getX() - 1);
+                j.setX(getX() - 1);
                 break;
         }
     }

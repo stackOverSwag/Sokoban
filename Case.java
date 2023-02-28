@@ -5,15 +5,16 @@ public class Case extends Object{
     * au Point this.
     */
     public void setX(int p) {
-    x = p;
+        x = p;
     }
     public void setY(int p) {
-    y = p;
+        y = p;
     }
     public int getX() {
-    return x;
+        return x;
     }
     public int getY() {
-    return y;
+        return y;
     }
 };
+

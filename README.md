@@ -1,5 +1,7 @@
 # Java-game
-Contributors:  Chanez A
+Contributors:  
+
+               Chanez A
 
                Alex B
                

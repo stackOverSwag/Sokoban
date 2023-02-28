@@ -11,20 +11,17 @@
  *      'a'personnage sur cible
  */
 
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-
 public class matrice {
     public static void main(String[] args) throws FileNotFoundException {
       File file = new File("../niveaux/outlevels/1by1_clone_flower.txt");
-      Scanner scanner = new Scanner(file);
-      String monde=scanner.next();
+      Scanner scanner = new Scanner(file); // gotta close the file idk how
+      String monde = scanner.next(); // not used yet Rayan, vscode is mad at me
+
       // Get the number of rows and columns from the file
-      
       int numRows = scanner.nextInt();
       int numCols = numRows;
       scanner.nextLine(); // Move the scanner to the next line

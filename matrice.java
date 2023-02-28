@@ -117,7 +117,7 @@ public class MatrixFromFile {
     }
 }
 
-In this example, we create a File object and a Scanner object to read the file. We get the number of rows and columns from the file, and use them to create a matrix with the same properties. We then fill the matrix with data from the file using nested for loops. Finally, we print the matrix to the console.
+/*In this example, we create a File object and a Scanner object to read the file. We get the number of rows and columns from the file, and use them to create a matrix with the same properties. We then fill the matrix with data from the file using nested for loops. Finally, we print the matrix to the console.
 
 Assuming the input file (matrix.txt) looks like this:
 
@@ -133,3 +133,4 @@ the output will be:
 9 10 11 12 
 
 Note that you should handle exceptions appropriately, such as FileNotFoundException which may be thrown if the file does not exist or cannot be opened. Also, you can modify the code to handle different types of data in the file (e.g. strings or floats), or to write the matrix to a new file instead of printing to the console.
+*/

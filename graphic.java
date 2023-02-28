@@ -1,2 +1,2 @@
-import "swing.java"
+import javax.swing.*;
   

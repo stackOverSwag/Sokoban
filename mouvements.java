@@ -12,14 +12,8 @@
 import "Case.java";
 
 
-public class mouvements {
-    enum direction {
-        NORD, 
-        SUD,
-        EST,
-        OUEST
-    }
-
+public class mouvements extends direction{
+    
     public mouvements(Case p, direction s) {
         switch(s) {
             case NORD:

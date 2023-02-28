@@ -14,35 +14,38 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import Boite.java;
+import Joueur.java;
+
 
 public class matrice {
     public static void main(String[] args) throws FileNotFoundException {
-      File file = new File("../niveaux/outlevels/1by1_clone_flower.txt");
-      Scanner scanner = new Scanner(file); // gotta close the file idk how
-      String monde = scanner.next(); // not used yet Rayan, vscode is mad at me
+        File file = new File("../niveaux/outlevels/1by1_clone_flower.txt");
+        Scanner scanner = new Scanner(file); // gotta close the file idk how
+        String monde = scanner.next(); // not used yet Rayan, vscode is mad at me
 
-      // Get the number of rows and columns from the file
-      int numRows = scanner.nextInt();
-      int numCols = numRows;
-      scanner.nextLine(); // Move the scanner to the next line
+        // Get the number of rows and columns from the file
+        int numRows = scanner.nextInt();
+        int numCols = numRows;
+        scanner.nextLine(); // Move the scanner to the next line
 
-      // Create a matrix with the same properties as the file
-      char[][] matrix = new char[numRows][numCols];
+        // Create a matrix with the same properties as the file
+        char[][] matrix = new char[numRows][numCols];
 
-      // Fill the matrix with data from the file
-      for (int i = 0; i < numRows; i++) {
-          String line = scanner.nextLine();
-          for (int j = 0; j < numCols; j++) {
-              matrix[i][j] = line.charAt(j);
-          }
-      }
+        // Fill the matrix with data from the file
+        for (int i = 0; i < numRows; i++) {
+            String line = scanner.nextLine();
+            for (int j = 0; j < numCols; j++) {
+                matrix[i][j] = line.charAt(j);
+            }
+        }
 
-      // Print the matrix to the console
-      for (int i = 0; i < numRows; i++) {
-          for (int j = 0; j < numCols; j++) {
-              System.out.print(matrix[i][j] + " ");
-          }
-          System.out.println();
-      }
+        // Print the matrix to the console
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if(matrix[i][j]="B") Boite(i,j);
+                if(matrix[i][j]="A") Joueur(i,j);
+            }
+        }
     }
 }

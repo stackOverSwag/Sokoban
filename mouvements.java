@@ -10,9 +10,9 @@
 
  */
 import "Case.java";
+import "direction.java"
 
-
-public class mouvements extends direction{
+public class mouvements implements direction{
     
     public mouvements(Case p, direction s) {
         switch(s) {

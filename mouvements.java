@@ -9,8 +9,8 @@
  *      +suivant(p,d) modifie position de p si estlibre vrai
 
  */
-import "Case.java";
-import "direction.java"
+import Case.java;
+import direction.java;
 
 public class mouvements implements direction{
     

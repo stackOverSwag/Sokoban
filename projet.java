@@ -29,6 +29,6 @@
  *      
  */
 
- import "mouvements.java";
- import "matrice.java";
- import "Case.java"
+ import mouvements.java;
+ import matrice.java;
+ import Case.java;

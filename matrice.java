@@ -62,7 +62,7 @@ public class MovementExample {
                 System.out.println("Invalid direction");
                 return;
         }
-
+        
         System.out.println("Moved " + direction + " to position (" + x + "," + y + ")");
     }
 }

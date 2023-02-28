@@ -29,12 +29,7 @@ public class matrice {
     }
 }
 */
-Rayan Zeriri
-write a code in java of movements
 
-Sure! Here's an example code in Java for some simple movements:
-
-java
 
 import java.util.Scanner;
 

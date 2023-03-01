@@ -33,6 +33,6 @@ public class graphic extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new MaFenetre();
+        MaFenetre maFenetre = new MaFenetre();
     }
 }

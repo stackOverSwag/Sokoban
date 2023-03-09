@@ -43,6 +43,7 @@ public class matrice {
             for (int j = 0; j < numCols; j++) {
                 if(matrix[i][j]="B") Boite(i,j);
                 if(matrix[i][j]="A") Joueur(i,j);
+                if(matrix[i][j]="@") Cible(i,j);
             }
         }
     }

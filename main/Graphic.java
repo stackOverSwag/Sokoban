@@ -6,7 +6,7 @@ public class Graphic extends JFrame implements Runnable {
     // Screen settings
 
     final int caseSize = 16;
-    final int scale = 3
+    final int scale = 3;
 
     final int tileSize = originalTileSize * scale; // 48x48 tile
     final int maxScreenCol = 16;

@@ -13,7 +13,8 @@ public class Graphic extends JFrame implements Runnable {
     final int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     final int screenHeight = tileSize * maxScreenRow; // 576 pixels
-
+    
+    KeyHandler keyH = new KeyHandler(); 
     Thread gameThread();
 
     public Graphic() {
@@ -40,7 +41,18 @@ public class Graphic extends JFrame implements Runnable {
     }
 
     public void update() {
-        // Leaving emppty for now!
+        if (keyH.upPressed == true) {
+            playerY -= playerSpeed;
+        }
+        else if (keyH.downPressed == true) {
+            playerY += playerSpeed;
+        }
+        else if (keyH.leftPressed == true) {
+            playerX -= playerSpeed;
+        }
+        else if (keyH.rightPressed == true) {
+            playerX += playerSpeed;
+        }
     }
 
     public void paintComponent(Graphics g) {

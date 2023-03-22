@@ -14,10 +14,14 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import Cible.java;
+import Joueur.java;
+import Boite.java;
 
+public class Matrice {
+    
 
-public class matrice {
-    public static void main(String[] args) throws FileNotFoundException {
+    public Matrice () throws FileNotFoundException {
         File file = new File("../niveaux/outlevels/1by1_clone_flower.txt");
         Scanner scanner = new Scanner(file); // gotta close the file idk how
         String monde = scanner.next(); // not used yet Rayan, vscode is mad at me
@@ -41,9 +45,9 @@ public class matrice {
         // Print the matrix to the console
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
-                if(matrix[i][j]="B") Boite(i,j);
-                if(matrix[i][j]="A") Joueur(i,j);
-                if(matrix[i][j]="@") Cible(i,j);
+                if(matrix[i][j]=='B') new Boite(i,j);
+                if(matrix[i][j]=='A') new Joueur(i,j);
+                if(matrix[i][j]=='@') new Cible(i,j);
             }
         }
     }

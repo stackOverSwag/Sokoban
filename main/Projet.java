@@ -1,6 +1,7 @@
 /*
  * return: ctrl z
  * mouvements: fleches directionnelles
+ * indice : I
  * objectif matrice:
  * nom du monde est une lettre suivi d'un chiffre taille
  * creer un carré vide de n lignes et n colonnes avec les cases:

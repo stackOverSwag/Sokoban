@@ -21,3 +21,4 @@ public class Main {
 
     }
 }
+/*it does not recognize Gamepanel class */

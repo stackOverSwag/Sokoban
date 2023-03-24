@@ -46,5 +46,9 @@ public boolean upPressed, downPressed, leftPressed, rightPressed;
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
         }
+        
+        // TODO
+        // fix this damned issue
+        // check that this implementation works w/ matrices 
     }
 }

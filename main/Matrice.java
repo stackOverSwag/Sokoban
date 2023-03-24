@@ -46,5 +46,7 @@ public class matrice {
                 if(matrix[i][j]="@") Cible(i,j);
             }
         }
+        // TODO
+        // ask Rayan how to implement keyH/Graphisme w/ this...
     }
 }

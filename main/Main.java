@@ -24,15 +24,10 @@ public class Main {
         
         
         
-        //ca c ma partie je m'en occuperai plus tard il y a un probleme d'exec
-        try{
-            Matrice matrice = new Matrice("1by1_clone_flower.txt");
+    
+        Matrice matrice = new Matrice("1by1_clone_flower.txt");
         System.out.println(matrice.toString());
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-   
+
     }
     public void suivant(Joueur p, Direction s, Matrice matrice) {
         if(estlibre(p,s,matrice)){

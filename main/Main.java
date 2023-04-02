@@ -6,7 +6,7 @@ public class Main {
 
     public static void main (String[] args) {
         
-        /*JFrame window = new JFrame();
+        JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("2D Game");
@@ -20,8 +20,6 @@ public class Main {
         window.setVisible(true);
 
         gamePanel.startGameThread(); // starts the game!
-        */
-        //en attendant que ce soit operationel
         
         
         

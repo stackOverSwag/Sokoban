@@ -22,7 +22,15 @@ public class Graphic extends JFrame implements Runnable {
         this.setTitle("Java Game");
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyH);
+        this.setFocusable(true);
 
+    }
+
+    public void startGameThread() {
+
+        gameThread = new Thread(this);
+        gamethread.start();
     }
 
     @Override
@@ -59,9 +67,8 @@ public class Graphic extends JFrame implements Runnable {
 
         super.paintComponent(g); // used whenever paintComponent is used.
 
-        Graphics2D g2 = (Graphics2D) g; // A CAST?!?!? (I failed OOP)
-                                        // Graphics2D has some functions we'll need later :)
-
+        Graphics2D g2 = (Graphics2D) g; 
+        
         g2.setColor(Color.white); // Our object
         g2.fillRect(100, 100, tileSize, tileSize);
         g2.dispose(); // Memory saving technique

@@ -45,7 +45,9 @@
                     if (matrix[i][j] == 'A')
                         new Joueur(32, 32, i, j);
                     if (matrix[i][j] == '@')
-                        new Cible(32, 32, i, j);
+                        new Cible (32, 32, i, j);
+                    if (matrix[i][j] == '#')
+                        new Mur(32, 32, i, j);
                     if (matrix[i][j] == '#')
                         new Mur(32, 32, i, j);
                 }

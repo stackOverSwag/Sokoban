@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class KeyHandler implements KeyListener {
 
-public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed;
 
     @Override
     public void keyTyped(KeyEvent e) {} // NOT USED EVER
@@ -13,7 +13,6 @@ public boolean upPressed, downPressed, leftPressed, rightPressed;
         
         int code = e.getKeyCode(); // returns number of key pressed
         
-        // SETS VALUE FOR LATER
         if (code == KeyEvent.VK_W) {
             upPressed = true;
         }
@@ -32,8 +31,6 @@ public boolean upPressed, downPressed, leftPressed, rightPressed;
     public void keyReleased(KeyEvent e) {
 
         int code = e.getKeyCode();
-        
-        // DOESN'T WORK FOR NOW
   
         if (code == KeyEvent.VK_W) {
             upPressed = false;
@@ -50,8 +47,40 @@ public boolean upPressed, downPressed, leftPressed, rightPressed;
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
         }
-        
-        // TODO
-        // fix this dumb override issue!
+    }
+
+    public void getDirection() {
+
+        if (upPressed && 
+            !downPressed && 
+            !leftPressed && 
+            !rightPressed) {
+
+            return Direction.NORD;
+        } 
+
+        else if (!upPressed && 
+                 downPressed && 
+                 !leftPressed && 
+                 !rightPressed) {
+
+            return Direction.SUD;
+        } 
+
+        else if (!upPressed && 
+                 !downPressed && 
+                 leftPressed && 
+                 !rightPressed) {
+
+            return Direction.OUEST;
+        } 
+
+        else if (!upPressed && 
+                 !downPressed && 
+                 !leftPressed && 
+                 rightPressed) {
+
+            return Direction.EST;
+        }
     }
 }

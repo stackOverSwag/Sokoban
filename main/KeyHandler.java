@@ -34,19 +34,19 @@ public boolean upPressed, downPressed, leftPressed, rightPressed;
         int code = e.getKeyCode();
         
         // DOESN'T WORK FOR NOW
-        @Override
+  
         if (code == KeyEvent.VK_W) {
             upPressed = false;
         }
-        @Override
+       
         if (code == KeyEvent.VK_S) {
             downPressed = false;
         }
-        @Override
+        
         if (code == KeyEvent.VK_A) {
             leftPressed = false;
         }
-        @Override
+    
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
         }

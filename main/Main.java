@@ -1,92 +1,97 @@
-import javax.lang.model.element.Element;
 import javax.swing.*;
-import java.io.FileNotFoundException;
 
 public class Main {
-
     public static void main (String[] args) {
         
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("2D Game");
+        window.setTitle("Sokoban");
 
-        GamePanel gamePanel = new GamePanel();
-        window.add(gamePanel);
-
+        Graphic gamePanel = new Graphic();
+        window.getContentPane().add(gamePanel);
         window.pack();
-
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-
         gamePanel.startGameThread(); // starts the game!
-        
-        
-        
-        
+
         Matrice matrice = new Matrice("1by1_clone_flower.txt");
-        Joueur p= new Joueur(32,32,0,0);
-        Direction s=Direction.NORD;
         System.out.println(matrice.toString());
-        while(!victory(matrice)){
-           suivant(p,s,matrice);
+        KeyHandler keyH = new KeyHandler();
+        gamePanel.addKeyListener(keyH); // Add KeyHandler to the gamePanel
+        gamePanel.setFocusable(true);
+
+        boolean gameWon = false;
+        boolean gamePaused = false;
+
+        while (!gameWon && !gamePaused) {
+            Direction s = keyH.getDirection();
+            suivant(p, s, matrice);
+            gameWon = victory(matrice);
+            gamePaused = keyH.Pause();
         }
-        System.out.println("GG well play you are a Top G");
 
+        if (gameWon) {
+            System.out.println("GG well played! You are a Top G");
+        } else if (gamePaused) {
+            System.out.println("Game paused.");
+        } else {
+            System.out.println("Loser! Try again.");
+        }
     }
+    
     public static boolean suivant(Joueur p, Direction s, Matrice matrice) {
-        Joueur Joueur;
-        if(estlibre(p,s,matrice)){
-            switch(s) {
-            case NORD:
-                if(matrice.getElement(p.getX(),p.getY()+1)=='#') return false;
+        if (estlibre(p, s, matrice)) {
+            switch (s) {
+                case NORD:
+                    if (matrice.getElement(p.getX(), p.getY() + 1) == '#') return false;
 
-                if(matrice.getElement(p.getX(),p.getY()+1)=='@')
-                    matrice.setElement(p.getX(),p.getY()+1,'a');
-                else
-                    matrice.setElement(p.getX(),p.getY()+1,'A');
+                    if (matrice.getElement(p.getX(), p.getY() + 1) == '@')
+                        matrice.setElement(p.getX(), p.getY() + 1, 'a');
+                    else
+                        matrice.setElement(p.getX(), p.getY() + 1, 'A');
 
-                    if(matrice.getElement(p.getX(),p.getY())=='a')
-                    matrice.setElement(p.getX(),p.getY(),'@');
-                else
-                    matrice.setElement(p.getX(),p.getY(),' ');
-                p.setY(p.getY() + 1);
-                break;
+                    if (matrice.getElement(p.getX(), p.getY()) == 'a')
+                        matrice.setElement(p.getX(), p.getY(), '@');
+                    else
+                        matrice.setElement(p.getX(), p.getY(), ' ');
+                    p.setY(p.getY() + 1);
+                    break;
 
-            case SUD:
-                if(matrice.getElement(p.getX(),p.getY()-1)=='#') return false;
+                case SUD:
+                    if (matrice.getElement(p.getX(), p.getY() - 1) == '#') return false;
 
-                if(matrice.getElement(p.getX(),p.getY()-1)=='@')
-                    matrice.setElement(p.getX(),p.getY()-1,'a');
-                else
-                    matrice.setElement(p.getX(),p.getY()-1,'A');
+                    if (matrice.getElement(p.getX(), p.getY() - 1) == '@')
+                        matrice.setElement(p.getX(), p.getY() - 1, 'a');
+                    else
+                        matrice.setElement(p.getX(), p.getY() - 1, 'A');
 
-                    if(matrice.getElement(p.getX(),p.getY())=='a')
-                    matrice.setElement(p.getX(),p.getY(),'@');
-                else
-                    matrice.setElement(p.getX(),p.getY(),' ');
-                p.setY(p.getY() - 1);
-                break;
+                    if (matrice.getElement(p.getX(), p.getY()) == 'a')
+                        matrice.setElement(p.getX(), p.getY(), '@');
+                    else
+                        matrice.setElement(p.getX(), p.getY(), ' ');
+                    p.setY(p.getY() - 1);
+                    break;
 
-            case EST:
-                if(matrice.getElement(p.getX()+1,p.getY())=='#') return false;
+                case EST:
+                    if (matrice.getElement(p.getX() + 1, p.getY()) == '#') return false;
 
-                if(matrice.getElement(p.getX()+1,p.getY())=='@')
-                    matrice.setElement(p.getX()+1,p.getY(),'a');
-                else
-                    matrice.setElement(p.getX()+1,p.getY(),'A');
+                    if (matrice.getElement(p.getX() + 1, p.getY()) == '@')
+                        matrice.setElement(p.getX() + 1, p.getY(), 'a');
+                    else
+                        matrice.setElement(p.getX() + 1, p.getY(), 'A');
 
-                    if(matrice.getElement(p.getX(),p.getY())=='a')
-                    matrice.setElement(p.getX(),p.getY(),'@');
-                else
-                    matrice.setElement(p.getX(),p.getY(),' ');    
-                p.setX(p.getX() + 1);
-                break;
+                    if (matrice.getElement(p.getX(), p.getY()) == 'a')
+                        matrice.setElement(p.getX(), p.getY(), '@');
+                    else
+                        matrice.setElement(p.getX(), p.getY(), ' ');
+                    p.setX(p.getX() + 1);
+                    break;
 
-            case OUEST:
-                if(matrice.getElement(p.getX()-1,p.getY())=='#') return false;
+                case OUEST:
+                    if (matrice.getElement(p.getX() - 1, p.getY()) == '#') return false;
 
-                if(matrice.getElement(p.getX()-1,p.getY())=='@')
+                    if (matrice.getElement(p.getX() - 1, p.getY())=='@')
                     matrice.setElement(p.getX()-1,p.getY(),'a');
                 else
                     matrice.setElement(p.getX()-1,p.getY(),'A');
@@ -101,6 +106,8 @@ public class Main {
             matrice.toString();
             return true;
         }
+
+        else
         return false;
         
     }

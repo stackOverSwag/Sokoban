@@ -10,7 +10,7 @@
  *      'b'boite sur cible
  *      'a'personnage sur cible
  */
-
+ import java.util.List;
  import java.io.File;
  import java.io.FileNotFoundException;
  import java.util.Scanner;
@@ -22,6 +22,10 @@
     private int cols=0;
     private char monde;
     String fileName ="1by1_clone_flower.txt";
+    private List<Joueur> joueurs;
+    private List<Boite> boites;
+    private List<Cible> cibles;
+    private List<Mur> murs;
     // Create a matrix with the same properties as the file
     public Matrice(int rows, int cols){
     this.rows = rows;
@@ -40,20 +44,19 @@
                 line = scanner.nextLine();
                 for (int j = 0; j < cols; j++) {
                     matrix[i][j] = line.charAt(j);
-                    if (matrix[i][j] == 'B')
-                        new Boite(32, 32, i, j);
-                    if (matrix[i][j] == 'A')
-                        new Joueur(32, 32, i, j);
-                    if (matrix[i][j] == '@')
-                        new Cible (32, 32, i, j);
-                    if (matrix[i][j] == '#')
-                        new Mur(32, 32, i, j);
-                    if (matrix[i][j] == '#')
-                        new Mur(32, 32, i, j);
+                    if (Character.isUpperCase(matrix[i][j]) && matrix[i][j] != 'A')
+                        boites.add(new Boite(32, 32, i, j));
+                    else if (matrix[i][j] == 'A')
+                        joueurs.add(new Joueur(32, 32, i, j));
+                    else if (matrix[i][j] == '@')
+                        cibles.add(new Cible(32, 32, i, j));
+                    else if (matrix[i][j] == '#')
+                        murs.add(new Mur(32, 32, i, j)); 
                 }
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
+                
+            } scanner.close();
+        } 
+        catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         catch (Exception e) {
@@ -92,6 +95,21 @@
     matrix[i][j] = val;
     }
 
+    public List<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    public List<Boite> getBoites() {
+        return boites;
+    }
+
+    public List<Cible> getCibles() {
+        return cibles;
+    }
+
+    public List<Mur> getMurs() {
+        return murs;
+    }
      
     @Override
     public String toString() {

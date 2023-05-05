@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, escape;
 
     @Override
     public void keyTyped(KeyEvent e) {} // NOT USED EVER
@@ -13,6 +15,9 @@ public class KeyHandler implements KeyListener {
         
         int code = e.getKeyCode(); // returns number of key pressed
         
+        if (code == KeyEvent.VK_ESCAPE) {
+            escape = true;
+        }
         if (code == KeyEvent.VK_W) {
             upPressed = true;
         }
@@ -31,7 +36,10 @@ public class KeyHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
 
         int code = e.getKeyCode();
-  
+
+        if (code == KeyEvent.VK_ESCAPE) {
+            escape = false;
+        }
         if (code == KeyEvent.VK_W) {
             upPressed = false;
         }
@@ -49,8 +57,8 @@ public class KeyHandler implements KeyListener {
         }
     }
 
-    public void getDirection() {
-
+    public Direction getDirection() {
+        
         if (upPressed && 
             !downPressed && 
             !leftPressed && 
@@ -82,5 +90,13 @@ public class KeyHandler implements KeyListener {
 
             return Direction.EST;
         }
+        else{
+            System.out.println("try again");
+            return null;
+        }
+    }
+
+    public boolean Pause(){
+        return this.escape;
     }
 }

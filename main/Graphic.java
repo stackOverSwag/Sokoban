@@ -8,70 +8,67 @@ public class Graphic extends JFrame implements Runnable {
     final int caseSize = 16;
     final int scale = 3;
 
-    final int tileSize = originalTileSize * scale; // 48x48 tile
+    final int tileSize = 32 * scale; // 48x48 tile
     final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
+    final int maxScreenRow = 16;
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
-    final int screenHeight = tileSize * maxScreenRow; // 576 pixels
-    
-    KeyHandler keyH = new KeyHandler(); 
-    Thread gameThread();
+    final int screenHeight = tileSize * maxScreenRow; // 768 pixels
+
+    KeyHandler keyH;
+    Thread gameThread;
+    JPanel gamePanel;
 
     public Graphic() {
+        setTitle("Java Game");
+        setPreferredSize(new Dimension(screenWidth, screenHeight));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        this.setTitle("Java Game");
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setDoubleBuffered(true);
-        this.addKeyListener(keyH);
-        this.setFocusable(true);
+        gamePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setColor(Color.WHITE);
+                g2.fillRect(100, 100, tileSize, tileSize);
+                g2.dispose();
+            }
+        };
+        gamePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        gamePanel.setFocusable(true);
 
+        add(gamePanel);
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    public void setKeyHandler(KeyHandler keyHandler) {
+        this.keyH = keyHandler;
+        gamePanel.addKeyListener(keyH);
     }
 
     public void startGameThread() {
-
         gameThread = new Thread(this);
-        gamethread.start();
+        gameThread.start();
     }
 
     @Override
     public void run() { // Game Loop!
-
-        while(null != gameThread) {
-
+        while (null != gameThread) {
             // 1 Update character position.
             update();
 
             // 2 Draw the screen with updated information.
-            repaint();
-
+            gamePanel.repaint();
+            try {
+                Thread.sleep(16); // Adjust the delay as needed
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
     public void update() {
-        if (keyH.upPressed == true) {
-            playerY -= playerSpeed;
-        }
-        else if (keyH.downPressed == true) {
-            playerY += playerSpeed;
-        }
-        else if (keyH.leftPressed == true) {
-            playerX -= playerSpeed;
-        }
-        else if (keyH.rightPressed == true) {
-            playerX += playerSpeed;
-        }
+        // Update game logic
     }
-
-    public void paintComponent(Graphics g) {
-
-        super.paintComponent(g); // used whenever paintComponent is used.
-
-        Graphics2D g2 = (Graphics2D) g; 
-        
-        g2.setColor(Color.white); // Our object
-        g2.fillRect(100, 100, tileSize, tileSize);
-        g2.dispose(); // Memory saving technique
-    }
-
 }

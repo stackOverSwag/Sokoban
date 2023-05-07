@@ -1,42 +1,52 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class Graphic extends JFrame implements Runnable {
+public class Graphic extends JFrame implements Runnable,KeyListener {
 
     // Screen settings
-
-    final int caseSize = 16;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, escape;
     final int scale = 3;
-
     final int tileSize = 32 * scale; // 48x48 tile
     final int maxScreenCol = 16;
     final int maxScreenRow = 16;
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     final int screenHeight = tileSize * maxScreenRow; // 768 pixels
+    Matrice matrice = new Matrice("1by1_clone_flower.txt");
 
     KeyHandler keyH;
     Thread gameThread;
     JPanel gamePanel;
 
     public Graphic() {
-        setTitle("Java Game");
+        setTitle("Sokoban");
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-
         gamePanel = new JPanel() {
+            
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.WHITE);
-                g2.fillRect(100, 100, tileSize, tileSize);
-                g2.dispose();
+                gamePanel.setBackground(Color.BLACK);
+                Graphics2D m = (Graphics2D) g, p=(Graphics2D) g;
+                m.setColor(Color.WHITE);
+                p.setColor(Color.RED);
+
+                for(int i=0;i<matrice.getRows();i++){
+                    for(int j=0;j<matrice.getCols();j++){
+                        m.fillRect(i*tileSize, j*tileSize, tileSize, tileSize);
+                    }
+                }
+                
+                p.fillRect(0*tileSize, 0*tileSize, tileSize, tileSize);
+                m.dispose();
+                p.dispose();
             }
         };
         gamePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
         gamePanel.setFocusable(true);
-
+        gamePanel.addKeyListener(this);
         add(gamePanel);
         pack();
         setLocationRelativeTo(null);
@@ -70,5 +80,89 @@ public class Graphic extends JFrame implements Runnable {
 
     public void update() {
         // Update game logic
+    }
+    
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode(); // returns number of key pressed
+        if (code == KeyEvent.VK_ESCAPE) {
+            escape = true;
+        }
+        if (code == KeyEvent.VK_W) {
+            upPressed = true;
+        }
+        if (code == KeyEvent.VK_S) {
+            downPressed = true;
+        }
+        if (code == KeyEvent.VK_A) {
+            leftPressed = true;
+        }
+        if (code == KeyEvent.VK_D) {
+            rightPressed = true;
+        }
+        gamePanel.repaint();
+    }
+    
+    @Override
+    public void keyTyped(KeyEvent e) {}
+    
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode(); // returns number of key pressed
+        if (code == KeyEvent.VK_ESCAPE) {
+            escape = false;
+        }
+        if (code == KeyEvent.VK_W) {
+            upPressed = false;
+        }
+        if (code == KeyEvent.VK_S) {
+            downPressed = false;
+        }
+        if (code == KeyEvent.VK_A) {
+            leftPressed = false;
+        }
+        if (code == KeyEvent.VK_D) {
+            rightPressed = false;
+        }
+        gamePanel.repaint();
+    }
+    public Direction getDirection() {
+        while(!upPressed && !downPressed && !leftPressed && !rightPressed){
+            if (upPressed && 
+                !downPressed && 
+                !leftPressed && 
+                !rightPressed) {
+
+                return Direction.NORD;
+            } 
+
+            else if (!upPressed && 
+                    downPressed && 
+                    !leftPressed && 
+                    !rightPressed) {
+
+                return Direction.SUD;
+            } 
+
+            else if (!upPressed && 
+                    !downPressed && 
+                    leftPressed && 
+                    !rightPressed) {
+
+                return Direction.OUEST;
+            } 
+
+            else if (!upPressed && 
+                    !downPressed && 
+                    !leftPressed && 
+                    rightPressed) {
+
+                return Direction.EST;
+            }
+            else{
+                System.out.println("try again");
+                return null;
+            }
+        }
+        return Direction.SUD;
     }
 }

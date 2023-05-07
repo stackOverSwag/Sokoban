@@ -1,25 +1,28 @@
 import javax.swing.*;
+import java.util.List;
+import java.io.File;
+
+
 
 public class Main {
     public static void main (String[] args) {
-        
-        JFrame window = new JFrame();
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(false);
-        window.setTitle("Sokoban");
 
-        Graphic gamePanel = new Graphic();
-        window.getContentPane().add(gamePanel);
-        window.pack();
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
-        gamePanel.startGameThread(); // starts the game!
-
-        Matrice matrice = new Matrice("1by1_clone_flower.txt");
-        System.out.println(matrice.toString());
+        Graphic game = new Graphic();
         KeyHandler keyH = new KeyHandler();
-        gamePanel.addKeyListener(keyH); // Add KeyHandler to the gamePanel
-        gamePanel.setFocusable(true);
+        game.setKeyHandler(keyH);
+        game.setVisible(true);
+        game.setTitle("Sokoban");
+        game.setResizable(false);
+
+        game.getContentPane().add(game);
+        game.pack();
+        game.setLocationRelativeTo(null);
+        game.startGameThread(); // starts the game!
+        
+        Matrice matrice = new Matrice("1by1_clone_flower.txt");
+        Joueur p = matrice.getJoueurs().get(0);
+        game.addKeyListener(keyH); // Add KeyHandler to the game
+        game.setFocusable(true);
 
         boolean gameWon = false;
         boolean gamePaused = false;

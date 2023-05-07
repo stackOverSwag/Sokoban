@@ -14,8 +14,21 @@ public class SquareMove extends JFrame implements KeyListener {
     
     public SquareMove() {
         super("Square Move");
+         // Screen settings
+
+        final int scale = 3;
+
+        final int tileSize = 32 * scale; // 48x48 tile
+        final int maxScreenCol = 16;
+        final int maxScreenRow = 16;
+        final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+        final int screenHeight = tileSize * maxScreenRow; // 768 pixels
+
+        setTitle("Sokoban");
+        setPreferredSize(new Dimension(screenWidth, screenHeight));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        setResizable(false);
+
         x = 32;
         y = 32;
         
@@ -36,16 +49,16 @@ public class SquareMove extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
         switch (code) {
-            case KeyEvent.VK_UP:
+            case KeyEvent.VK_Z:
                 y -= 32;
                 break;
-            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
                 y += 32;
                 break;
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_Q:
                 x -= 32;
                 break;
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 x += 32;
                 break;
         }

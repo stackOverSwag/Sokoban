@@ -58,42 +58,44 @@ public class KeyHandler implements KeyListener {
     }
 
     public Direction getDirection() {
-        
-        if (upPressed && 
-            !downPressed && 
-            !leftPressed && 
-            !rightPressed) {
+        while(!upPressed && !downPressed && !leftPressed && !rightPressed){
+            if (upPressed && 
+                !downPressed && 
+                !leftPressed && 
+                !rightPressed) {
 
-            return Direction.NORD;
-        } 
+                return Direction.NORD;
+            } 
 
-        else if (!upPressed && 
-                 downPressed && 
-                 !leftPressed && 
-                 !rightPressed) {
+            else if (!upPressed && 
+                    downPressed && 
+                    !leftPressed && 
+                    !rightPressed) {
 
-            return Direction.SUD;
-        } 
+                return Direction.SUD;
+            } 
 
-        else if (!upPressed && 
-                 !downPressed && 
-                 leftPressed && 
-                 !rightPressed) {
+            else if (!upPressed && 
+                    !downPressed && 
+                    leftPressed && 
+                    !rightPressed) {
 
-            return Direction.OUEST;
-        } 
+                return Direction.OUEST;
+            } 
 
-        else if (!upPressed && 
-                 !downPressed && 
-                 !leftPressed && 
-                 rightPressed) {
+            else if (!upPressed && 
+                    !downPressed && 
+                    !leftPressed && 
+                    rightPressed) {
 
-            return Direction.EST;
+                return Direction.EST;
+            }
+            else{
+                System.out.println("try again");
+                return null;
+            }
         }
-        else{
-            System.out.println("try again");
-            return null;
-        }
+        return Direction.SUD;
     }
 
     public boolean Pause(){

@@ -10,18 +10,19 @@
  *      'b'boite sur cible
  *      'a'personnage sur cible
  */
- import java.util.List;
- import java.io.File;
- import java.io.FileNotFoundException;
- import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
  
  
  public class Matrice {
     private char[][] matrix;
-    private int rows=0;
-    private int cols=0;
-    private char monde;
-    String fileName ="1by1_clone_flower.txt";
+    private int rows;
+    private int cols;
+    private char monde=' ';
+    String file ="1by1_clone_flower.txt";
     private List<Joueur> joueurs;
     private List<Boite> boites;
     private List<Cible> cibles;
@@ -31,14 +32,22 @@
     this.rows = rows;
     this.cols = cols;
     this.matrix = new char[rows][cols];
+    this.joueurs = new ArrayList<>();
+    this.boites = new ArrayList<>();
+    this.cibles = new ArrayList<>();
+    this.murs = new ArrayList<>();
     }
 
     public Matrice(String file) {
-        try (Scanner scanner = new Scanner(new File(fileName))) {
+        try (Scanner scanner = new Scanner(new File(file))) {
             monde = scanner.next().charAt(0);
             rows = scanner.nextInt();
             cols = rows;
             String line = scanner.nextLine();
+            this.joueurs = new ArrayList<>();
+            this.boites = new ArrayList<>();
+            this.cibles = new ArrayList<>();
+            this.murs = new ArrayList<>();
             this.matrix = new char[rows][cols];
             for (int i = 0; i < rows; i++) {
                 line = scanner.nextLine();
@@ -68,6 +77,10 @@
         rows = other.getRows();
         cols = other.getCols();
         matrix = new char[rows][cols];
+        joueurs = new ArrayList<>(other.getJoueurs());
+        boites = new ArrayList<>(other.getBoites());
+        cibles = new ArrayList<>(other.getCibles());
+        murs = new ArrayList<>(other.getMurs());
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 matrix[i][j] = other.getElement(i, j);

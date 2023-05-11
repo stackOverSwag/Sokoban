@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.util.List;
+import java.awt.Color;
 import java.io.File;
 
 
@@ -13,12 +14,11 @@ public class Main {
         game.setVisible(true);
         game.setTitle("Sokoban");
         game.setResizable(false);
-
-        game.getContentPane().add(game);
         game.pack();
         game.setLocationRelativeTo(null);
         game.startGameThread(); // starts the game!
-        
+
+
         Matrice matrice = new Matrice("1by1_clone_flower.txt");
         Joueur p = matrice.getJoueurs().get(0);
         game.addKeyListener(keyH); // Add KeyHandler to the game

@@ -12,11 +12,14 @@ public class Graphic extends JFrame implements Runnable,KeyListener {
     final int maxScreenRow = 16;
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     final int screenHeight = tileSize * maxScreenRow; // 768 pixels
+    int j=0;
+    int i=0;
     Matrice matrice = new Matrice("1by1_clone_flower.txt");
-
+    private char[][] matrix=matrice.getmatrice();
     KeyHandler keyH;
     Thread gameThread;
     JPanel gamePanel;
+
 
     public Graphic() {
         setTitle("Sokoban");
@@ -24,26 +27,50 @@ public class Graphic extends JFrame implements Runnable,KeyListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         gamePanel = new JPanel() {
-            
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                gamePanel.setBackground(Color.BLACK);
-                Graphics2D m = (Graphics2D) g, p=(Graphics2D) g;
-                m.setColor(Color.WHITE);
+                
+                Graphics2D b = (Graphics2D) g;
+                Graphics2D p = (Graphics2D) g;
+                Graphics2D c = (Graphics2D) g;
+                Graphics2D m = (Graphics2D) g;
+                b.setColor(Color.WHITE);
                 p.setColor(Color.RED);
-
-                for(int i=0;i<matrice.getRows();i++){
-                    for(int j=0;j<matrice.getCols();j++){
-                        m.fillRect(i*tileSize, j*tileSize, tileSize, tileSize);
+                c.setColor(Color.BLUE);
+                m.setColor(Color.GREEN);
+                for (i = 0; i < matrice.getRows();i++) {
+                    for (j = 0; j < matrice.getCols(); j++) {
+                        if (Character.isUpperCase(matrix[i][j]) && matrix[i][j] != 'A') {
+                            Graphics2D bg = (Graphics2D) g.create();
+                            bg.setColor(Color.WHITE);
+                            bg.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
+                            bg.dispose();
+                        } else if (matrix[i][j] == 'A') {
+                            Graphics2D pg = (Graphics2D) g.create();
+                            pg.setColor(Color.RED);
+                            pg.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
+                            pg.dispose();
+                        } else if (matrix[i][j] == '@') {
+                            Graphics2D cg = (Graphics2D) g.create();
+                            cg.setColor(Color.BLUE);
+                            cg.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
+                            cg.dispose();
+                        } else if (matrix[i][j] == '#') {
+                            Graphics2D mg = (Graphics2D) g.create();
+                            mg.setColor(Color.GREEN);
+                            mg.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
+                            mg.dispose();
+                        }
                     }
                 }
                 
-                p.fillRect(0*tileSize, 0*tileSize, tileSize, tileSize);
-                m.dispose();
-                p.dispose();
+                
+                
+                
             }
         };
+        gamePanel.setBackground(Color.BLACK);
         gamePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
         gamePanel.setFocusable(true);
         gamePanel.addKeyListener(this);

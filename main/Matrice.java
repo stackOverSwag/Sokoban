@@ -18,7 +18,7 @@ import java.util.Scanner;
  
  
  public class Matrice {
-    private char[][] matrix;
+    private char[][] matrice;
     private int rows;
     private int cols;
     private char monde=' ';
@@ -27,11 +27,11 @@ import java.util.Scanner;
     private List<Boite> boites;
     private List<Cible> cibles;
     private List<Mur> murs;
-    // Create a matrix with the same properties as the file
+    // Create a matrice with the same properties as the file
     public Matrice(int rows, int cols){
     this.rows = rows;
     this.cols = cols;
-    this.matrix = new char[rows][cols];
+    this.matrice = new char[rows][cols];
     this.joueurs = new ArrayList<>();
     this.boites = new ArrayList<>();
     this.cibles = new ArrayList<>();
@@ -48,18 +48,18 @@ import java.util.Scanner;
             this.boites = new ArrayList<>();
             this.cibles = new ArrayList<>();
             this.murs = new ArrayList<>();
-            this.matrix = new char[rows][cols];
+            this.matrice = new char[rows][cols];
             for (int i = 0; i < rows; i++) {
                 line = scanner.nextLine();
                 for (int j = 0; j < cols; j++) {
-                    matrix[i][j] = line.charAt(j);
-                    if (Character.isUpperCase(matrix[i][j]) && matrix[i][j] != 'A')
+                    matrice[i][j] = line.charAt(j);
+                    if (Character.isUpperCase(matrice[i][j]) && matrice[i][j] != 'A')
                         boites.add(new Boite(32, 32, i, j));
-                    else if (matrix[i][j] == 'A')
+                    else if (matrice[i][j] == 'A')
                         joueurs.add(new Joueur(32, 32, i, j));
-                    else if (matrix[i][j] == '@')
+                    else if (matrice[i][j] == '@')
                         cibles.add(new Cible(32, 32, i, j));
-                    else if (matrix[i][j] == '#')
+                    else if (matrice[i][j] == '#')
                         murs.add(new Mur(32, 32, i, j)); 
                 }
                 
@@ -76,20 +76,20 @@ import java.util.Scanner;
     public Matrice(Matrice other) {
         rows = other.getRows();
         cols = other.getCols();
-        matrix = new char[rows][cols];
+        matrice = new char[rows][cols];
         joueurs = new ArrayList<>(other.getJoueurs());
         boites = new ArrayList<>(other.getBoites());
         cibles = new ArrayList<>(other.getCibles());
         murs = new ArrayList<>(other.getMurs());
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                matrix[i][j] = other.getElement(i, j);
+                matrice[i][j] = other.getElement(i, j);
             }
         }
     }
 
-    public char[][] getMatrix() {
-        return matrix;
+    public char[][] getmatrice() {
+        return matrice;
     }
 
     public int getRows() {
@@ -101,11 +101,11 @@ import java.util.Scanner;
     }
 
     public char getElement(int i, int j) {
-    return matrix[i][j];
+    return matrice[i][j];
     }
 
     public void setElement(int i, int j, char val) {
-    matrix[i][j] = val;
+    matrice[i][j] = val;
     }
 
     public List<Joueur> getJoueurs() {
@@ -130,7 +130,7 @@ import java.util.Scanner;
         sb.append("nom du monde : ").append(monde).append("\ntaille du monde : ").append(rows).append("\n");
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                sb.append(matrix[i][j]);
+                sb.append(matrice[i][j]);
             }
             sb.append("\n");
         }

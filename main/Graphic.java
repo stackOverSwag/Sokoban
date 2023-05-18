@@ -67,7 +67,7 @@ public class Graphic extends JFrame implements Runnable {
             blockImage = loadImage("images/boite.png");
             playerImage = loadImage("images/mario.png");
             targetImage = loadImage("images/cible.png");
-            wallImage = loadImage("images/mur.png");
+            wallImage = loadImage("images/mur.jpg");
             victoryImage = loadImage("images/victory.jpg");
             champImage = loadImage("images/champ.png");
             // Use the loaded images as needed

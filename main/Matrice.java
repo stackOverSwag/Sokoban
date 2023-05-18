@@ -22,7 +22,7 @@ import java.util.Scanner;
     private int rows;
     private int cols;
     private char monde=' ';
-    String file ="1by1_clone_flower.txt";
+    String file;
     private List<Joueur> joueurs;
     private List<Boite> boites;
     private List<Cible> cibles;

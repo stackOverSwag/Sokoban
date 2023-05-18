@@ -30,6 +30,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
         }
+   
     }
 
     @Override
@@ -40,7 +41,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ESCAPE) {
             escape = false;
         }
-        if (code == KeyEvent.VK_W) {
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_Z) {
             upPressed = false;
         }
        
@@ -48,7 +49,7 @@ public class KeyHandler implements KeyListener {
             downPressed = false;
         }
         
-        if (code == KeyEvent.VK_A) {
+        if (code == KeyEvent.VK_A || code == KeyEvent.VK_Q) {
             leftPressed = false;
         }
     
@@ -58,45 +59,18 @@ public class KeyHandler implements KeyListener {
     }
 
     public Direction getDirection() {
-        while(!upPressed && !downPressed && !leftPressed && !rightPressed){
-            if (upPressed && 
-                !downPressed && 
-                !leftPressed && 
-                !rightPressed) {
-
-                return Direction.NORD;
-            } 
-
-            else if (!upPressed && 
-                    downPressed && 
-                    !leftPressed && 
-                    !rightPressed) {
-
-                return Direction.SUD;
-            } 
-
-            else if (!upPressed && 
-                    !downPressed && 
-                    leftPressed && 
-                    !rightPressed) {
-
-                return Direction.OUEST;
-            } 
-
-            else if (!upPressed && 
-                    !downPressed && 
-                    !leftPressed && 
-                    rightPressed) {
-
-                return Direction.EST;
-            }
-            else{
-                System.out.println("try again");
-                return null;
-            }
+        if (upPressed && !downPressed && !leftPressed && !rightPressed) {
+            return Direction.NORD;
+        } else if (!upPressed && downPressed && !leftPressed && !rightPressed) {
+            return Direction.SUD;
+        } else if (!upPressed && !downPressed && leftPressed && !rightPressed) {
+            return Direction.OUEST;
+        } else if (!upPressed && !downPressed && !leftPressed && rightPressed) {
+            return Direction.EST;
         }
-        return Direction.SUD;
+        return Direction.NONE; // Default direction when no arrow keys are pressed
     }
+    
 
     public boolean Pause(){
         return this.escape;

@@ -7,46 +7,65 @@ import java.io.File;
 
 public class Main {
     public static void main (String[] args) {
-
-        Graphic game = new Graphic();
+        
         KeyHandler keyH = new KeyHandler();
-        game.setKeyHandler(keyH);
+        int i=0, cpt=0;
+        Graphic game = new Graphic();
         game.setVisible(true);
         game.setTitle("Sokoban");
         game.setResizable(false);
         game.pack();
         game.setLocationRelativeTo(null);
         game.startGameThread(); // starts the game!
-
-
-        Matrice matrice = new Matrice("1by1_clone_flower.txt");
-        Joueur p = matrice.getJoueurs().get(0);
         game.addKeyListener(keyH); // Add KeyHandler to the game
         game.setFocusable(true);
-
+        String file=game.fileName();
+        Matrice matrice = new Matrice("niveaux/" + file);
+        matrice.getmatrice();
+        Joueur p=matrice.getJoueurs().get(0);
         boolean gameWon = false;
         boolean gamePaused = false;
-
+        
         while (!gameWon && !gamePaused) {
-            Direction s = keyH.getDirection();
+            Direction s=keyH.getDirection();
+            while(s==Direction.NONE) {
+                s=keyH.getDirection(); System.out.println("no");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }System.out.println("yes");
             suivant(p, s, matrice);
+            game.repaint();
             gameWon = victory(matrice);
             gamePaused = keyH.Pause();
+        
         }
 
         if (gameWon) {
             System.out.println("GG well played! You are a Top G");
-        } else if (gamePaused) {
-            System.out.println("Game paused.");
-        } else {
-            System.out.println("Loser! Try again.");
+            
+            try {
+                Thread.sleep(2000); // Adjust the delay as needed
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            game.update();
+            matrice = new Matrice("niveaux/" + file);
+            matrice.getmatrice();
         }
+        else if (gamePaused) {
+            System.out.println("Game paused.");
+        } 
+    
     }
     
     public static boolean suivant(Joueur p, Direction s, Matrice matrice) {
         if (estlibre(p, s, matrice)) {
             switch (s) {
                 case NORD:
+                    
                     if (matrice.getElement(p.getX(), p.getY() + 1) == '#') return false;
 
                     if (matrice.getElement(p.getX(), p.getY() + 1) == '@')
@@ -142,7 +161,9 @@ public class Main {
         return true;
     }
   
+
+
+
     
-
+    
 }
-

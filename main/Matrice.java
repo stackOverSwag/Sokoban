@@ -126,6 +126,7 @@ import java.util.Scanner;
      
     @Override
     public String toString() {
+        //System.out.println("works");
         StringBuilder sb = new StringBuilder();
         sb.append("nom du monde : ").append(monde).append("\ntaille du monde : ").append(rows).append("\n");
         for (int i = 0; i < rows; i++) {

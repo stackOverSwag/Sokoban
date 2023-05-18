@@ -1,87 +1,127 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 
-public class Graphic extends JFrame implements Runnable,KeyListener {
+public class Graphic extends JFrame implements Runnable {
 
     // Screen settings
-    public boolean upPressed, downPressed, leftPressed, rightPressed, escape;
-    final int scale = 3;
-    final int tileSize = 32 * scale; // 48x48 tile
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 16;
+    final int scale = 5;
+    final int tileSize = 16 * scale; // 48x48 tile
+    final int maxScreenCol = 12;
+    final int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     final int screenHeight = tileSize * maxScreenRow; // 768 pixels
-    int j=0;
-    int i=0;
-    Matrice matrice = new Matrice("1by1_clone_flower.txt");
-    private char[][] matrix=matrice.getmatrice();
-    KeyHandler keyH;
+    int j = 0;
+    int i = 0;
+    int cpt = 0;
     Thread gameThread;
     JPanel gamePanel;
-
-
+    String[] fileNames;
+    private BufferedImage blockImage;
+    private BufferedImage playerImage;
+    private BufferedImage targetImage;
+    private BufferedImage wallImage;
+    private BufferedImage victoryImage;
+    private BufferedImage champImage;
     public Graphic() {
+
+        String directoryPath = "niveaux/";
+        // Create a File object for the directory
+        File directory = new File(directoryPath);
+        // Get all files in the directory
+        File[] files = directory.listFiles();
+        // Check if the directory exists
+        if (directory.exists()) {
+            // Check if it's a directory
+            if (directory.isDirectory()) {
+                // Check if any files exist in the directory
+                if (files != null && files.length > 0) {
+                    // Print the filenames and store them in an array
+                    fileNames = new String[files.length];
+                    for (cpt = 0; cpt < files.length; cpt++) {
+                        File file = files[cpt];
+                        String fileName = file.getName();
+                        if (fileName.substring(fileName.lastIndexOf(".") + 1).equalsIgnoreCase("txt")) {
+                            fileNames[cpt] = fileName;
+                        }
+                    }
+                    // Use the fileNames array as needed
+                } else {
+                    System.out.println("No files found in the directory.");
+                }
+            } else {
+                System.out.println(directoryPath + " is not a directory.");
+            }
+        } else {
+            System.out.println(directoryPath + " does not exist.");
+        }
         setTitle("Sokoban");
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+        cpt = 0;
+        try {
+            blockImage = loadImage("images/boite.png");
+            playerImage = loadImage("images/mario.png");
+            targetImage = loadImage("images/cible.png");
+            wallImage = loadImage("images/mur.png");
+            victoryImage = loadImage("images/victory.jpg");
+            champImage = loadImage("images/champ.png");
+            // Use the loaded images as needed
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         gamePanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                
-                Graphics2D b = (Graphics2D) g;
-                Graphics2D p = (Graphics2D) g;
-                Graphics2D c = (Graphics2D) g;
-                Graphics2D m = (Graphics2D) g;
-                b.setColor(Color.WHITE);
-                p.setColor(Color.RED);
-                c.setColor(Color.BLUE);
-                m.setColor(Color.GREEN);
-                for (i = 0; i < matrice.getRows();i++) {
+                Matrice matrice = new Matrice("niveaux/" + fileNames[cpt]);
+                char[][] matrix = matrice.getmatrice();
+
+                for (i = 0; i < matrice.getRows(); i++) {
                     for (j = 0; j < matrice.getCols(); j++) {
+                        int x = (j * tileSize) + (screenWidth - (matrice.getCols() * tileSize)) / 2;
+                        int y = (i * tileSize) + (screenHeight - (matrice.getRows() * tileSize)) / 2;
+
                         if (Character.isUpperCase(matrix[i][j]) && matrix[i][j] != 'A') {
-                            Graphics2D bg = (Graphics2D) g.create();
-                            bg.setColor(Color.WHITE);
-                            bg.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
-                            bg.dispose();
+                            // Draw the loaded image for uppercase blocks
+                            g.drawImage(blockImage, x, y, tileSize, tileSize, this);
                         } else if (matrix[i][j] == 'A') {
-                            Graphics2D pg = (Graphics2D) g.create();
-                            pg.setColor(Color.RED);
-                            pg.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
-                            pg.dispose();
+                            // Draw the loaded image for player block
+                            g.drawImage(playerImage, x, y, tileSize, tileSize, this);
+                        }
+                        else if (matrix[i][j] == 'a') {
+                            // Draw the loaded image for player block
+                            g.drawImage(victoryImage, x, y, tileSize, tileSize, this);
+                        }
+                        else if (matrix[i][j] == 'b') {
+                            // Draw the loaded image for player block
+                            g.drawImage(champImage, x, y, tileSize, tileSize, this);
                         } else if (matrix[i][j] == '@') {
-                            Graphics2D cg = (Graphics2D) g.create();
-                            cg.setColor(Color.BLUE);
-                            cg.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
-                            cg.dispose();
+                            // Draw the loaded image for target block
+                            g.drawImage(targetImage, x, y, tileSize, tileSize, this);
                         } else if (matrix[i][j] == '#') {
-                            Graphics2D mg = (Graphics2D) g.create();
-                            mg.setColor(Color.GREEN);
-                            mg.fillRect(j * tileSize, i * tileSize, tileSize, tileSize);
-                            mg.dispose();
+                            // Draw the loaded image for wall block
+                            g.drawImage(wallImage, x, y, tileSize, tileSize, this);
                         }
                     }
                 }
-                
-                
-                
-                
             }
         };
         gamePanel.setBackground(Color.BLACK);
         gamePanel.setPreferredSize(new Dimension(screenWidth, screenHeight));
         gamePanel.setFocusable(true);
-        gamePanel.addKeyListener(this);
         add(gamePanel);
         pack();
         setLocationRelativeTo(null);
     }
 
-    public void setKeyHandler(KeyHandler keyHandler) {
-        this.keyH = keyHandler;
-        gamePanel.addKeyListener(keyH);
+    public String fileName() {
+        return fileNames[cpt];
     }
 
     public void startGameThread() {
@@ -93,103 +133,39 @@ public class Graphic extends JFrame implements Runnable,KeyListener {
     public void run() { // Game Loop!
         while (null != gameThread) {
             // 1 Update character position.
-            update();
-
             // 2 Draw the screen with updated information.
-            gamePanel.repaint();
+
             try {
-                Thread.sleep(16); // Adjust the delay as needed
+                Thread.sleep(2000); // Adjust the delay as needed
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            gamePanel.repaint();
         }
     }
 
     public void update() {
+        cpt++;
         // Update game logic
     }
-    
-    public void keyPressed(KeyEvent e) {
-        int code = e.getKeyCode(); // returns number of key pressed
-        if (code == KeyEvent.VK_ESCAPE) {
-            escape = true;
-        }
-        if (code == KeyEvent.VK_W) {
-            upPressed = true;
-        }
-        if (code == KeyEvent.VK_S) {
-            downPressed = true;
-        }
-        if (code == KeyEvent.VK_A) {
-            leftPressed = true;
-        }
-        if (code == KeyEvent.VK_D) {
-            rightPressed = true;
-        }
-        gamePanel.repaint();
-    }
-    
-    @Override
-    public void keyTyped(KeyEvent e) {}
-    
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int code = e.getKeyCode(); // returns number of key pressed
-        if (code == KeyEvent.VK_ESCAPE) {
-            escape = false;
-        }
-        if (code == KeyEvent.VK_W) {
-            upPressed = false;
-        }
-        if (code == KeyEvent.VK_S) {
-            downPressed = false;
-        }
-        if (code == KeyEvent.VK_A) {
-            leftPressed = false;
-        }
-        if (code == KeyEvent.VK_D) {
-            rightPressed = false;
-        }
-        gamePanel.repaint();
-    }
-    public Direction getDirection() {
-        while(!upPressed && !downPressed && !leftPressed && !rightPressed){
-            if (upPressed && 
-                !downPressed && 
-                !leftPressed && 
-                !rightPressed) {
 
-                return Direction.NORD;
-            } 
+    private BufferedImage loadImage(String imagePath) throws IOException {
+        BufferedImage image = ImageIO.read(new File(imagePath));
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
 
-            else if (!upPressed && 
-                    downPressed && 
-                    !leftPressed && 
-                    !rightPressed) {
+        int desiredWidth = tileSize;
+        int desiredHeight = tileSize;
 
-                return Direction.SUD;
-            } 
-
-            else if (!upPressed && 
-                    !downPressed && 
-                    leftPressed && 
-                    !rightPressed) {
-
-                return Direction.OUEST;
-            } 
-
-            else if (!upPressed && 
-                    !downPressed && 
-                    !leftPressed && 
-                    rightPressed) {
-
-                return Direction.EST;
-            }
-            else{
-                System.out.println("try again");
-                return null;
-            }
+        if (imageWidth != desiredWidth || imageHeight != desiredHeight) {
+            Image resizedImage = image.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_DEFAULT);
+            BufferedImage resizedBufferedImage = new BufferedImage(desiredWidth, desiredHeight, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = resizedBufferedImage.createGraphics();
+            g2d.drawImage(resizedImage, 0, 0, null);
+            g2d.dispose();
+            return resizedBufferedImage;
+        } else {
+            return image;
         }
-        return Direction.SUD;
     }
 }

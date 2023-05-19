@@ -18,13 +18,13 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ESCAPE) {
             escape = true;
         }
-        if (code == KeyEvent.VK_W) {
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_Z) {
             upPressed = true;
         }
         if (code == KeyEvent.VK_S) {
             downPressed = true;
         }
-        if (code == KeyEvent.VK_A) {
+        if (code == KeyEvent.VK_A || code == KeyEvent.VK_Q) {
             leftPressed = true;
         }
         if (code == KeyEvent.VK_D) {

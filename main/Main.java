@@ -7,10 +7,46 @@ import java.io.File;
 
 public class Main {
     public static void main (String[] args) {
-        
-        KeyHandler keyH = new KeyHandler();
+
         int i=0, cpt=0;
-        Graphic game = new Graphic();
+        KeyHandler keyH = new KeyHandler();
+        String directoryPath = "niveaux/";
+        // Create a File object for the directory
+        File directory = new File(directoryPath);
+        // Get all files in the directory
+        File[] files = directory.listFiles();
+        // Check if the directory exists
+        String[] fileNames={};
+        if (directory.exists()) {
+            // Check if it's a directory
+            if (directory.isDirectory()) {
+                // Check if any files exist in the directory
+                if (files != null && files.length > 0) {
+                    // Print the filenames and store them in an array
+                    fileNames = new String[files.length];
+                    for (cpt = 0; cpt < files.length; cpt++) {
+                        File file = files[cpt];
+                        String fileName = file.getName();
+                        if (fileName.substring(fileName.lastIndexOf(".") + 1).equalsIgnoreCase("txt")) {
+                            fileNames[cpt] = fileName;
+                        }
+                    }
+                    // Use the fileNames array as needed
+                } else {
+                    System.out.println("No files found in the directory.");
+                }
+            } else {
+                System.out.println(directoryPath + " is not a directory.");
+            }
+        } else {
+            System.out.println(directoryPath + " does not exist.");
+        }
+        cpt=0;
+
+        Matrice matrice = new Matrice("niveaux/" + fileNames[cpt]);
+        Joueur p=matrice.getJoueurs().get(0);
+        matrice.getmatrice();
+        Graphic game = new Graphic(matrice);
         game.setVisible(true);
         game.setTitle("Sokoban");
         game.setResizable(false);
@@ -18,45 +54,47 @@ public class Main {
         game.setLocationRelativeTo(null);
         game.startGameThread(); // starts the game!
         game.addKeyListener(keyH); // Add KeyHandler to the game
-        game.setFocusable(true);
-        String file=game.fileName();
-        Matrice matrice = game.getmatrice();
-        matrice.getmatrice();
-        Joueur p=matrice.getJoueurs().get(0);
+        game.setFocusable(true); 
         boolean gameWon = false;
         boolean gamePaused = false;
         Direction s;
         
-        while (!gameWon && !gamePaused) {
-            s = keyH.getDirection();
-            System.out.println(matrice.toString());
-
-            System.out.println("yes");
-            
-            try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-            
-            suivant(p, s, matrice);
-            game.repaint();
-            gameWon = victory(matrice);
-            gamePaused = keyH.Pause();
-        
-        }
-
-        if (gameWon) {
-            System.out.println("GG well played! You are a Top G");
-            
-            try {
-                Thread.sleep(2000); // Adjust the delay as needed
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        for(;;){
+            while (!gameWon && !gamePaused) {
+                s = keyH.getDirection();
+                //while(s== Direction.NONE){};
+                
+                System.out.println(matrice.toString());
+                System.out.println("yes");
+                try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+                suivant(p, s, matrice);
+                game.setMatrice(matrice);
+                gameWon = keyH.Pause();
+                gamePaused = false;
             }
-            game.update();
-            matrice = new Matrice("niveaux/" + file);
-            matrice.getmatrice();
+
+            if (gameWon) {
+                System.out.println("GG well played! You are a Top G");
+                
+                try {
+                    Thread.sleep(2000); // Adjust the delay as needed
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                cpt++;
+                matrice = new Matrice("niveaux/" + fileNames[cpt]);
+                matrice.getmatrice();
+                p=matrice.getJoueurs().get(0);
+                game.setMatrice(matrice);
+                gameWon=false;
+                
+            }
+            else if (gamePaused) {
+                System.out.println("Game paused.");
+                try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+                gamePaused=false;
+            } 
         }
-        else if (gamePaused) {
-            System.out.println("Game paused.");
-        } 
     
     }
     
@@ -125,7 +163,6 @@ public class Main {
                     p.setX(p.getX() - 1);
                     break;
             }
-            matrice.toString();
             return true;
         }
 
@@ -151,9 +188,10 @@ public class Main {
             case NONE: 
                 return false;
         }
-        matrice.toString();
         return true;
     }
+
+    
 
     public static boolean victory(Matrice matrice){
         for(int i=0;i<matrice.getRows();i++){

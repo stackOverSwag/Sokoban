@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
+
 public class Graphic extends JFrame implements Runnable {
 
     // Screen settings
@@ -26,38 +27,10 @@ public class Graphic extends JFrame implements Runnable {
     private BufferedImage wallImage;
     private BufferedImage victoryImage;
     private BufferedImage champImage;
-    public Graphic() {
+    private Matrice matrice;
 
-        String directoryPath = "niveaux/";
-        // Create a File object for the directory
-        File directory = new File(directoryPath);
-        // Get all files in the directory
-        File[] files = directory.listFiles();
-        // Check if the directory exists
-        if (directory.exists()) {
-            // Check if it's a directory
-            if (directory.isDirectory()) {
-                // Check if any files exist in the directory
-                if (files != null && files.length > 0) {
-                    // Print the filenames and store them in an array
-                    fileNames = new String[files.length];
-                    for (cpt = 0; cpt < files.length; cpt++) {
-                        File file = files[cpt];
-                        String fileName = file.getName();
-                        if (fileName.substring(fileName.lastIndexOf(".") + 1).equalsIgnoreCase("txt")) {
-                            fileNames[cpt] = fileName;
-                        }
-                    }
-                    // Use the fileNames array as needed
-                } else {
-                    System.out.println("No files found in the directory.");
-                }
-            } else {
-                System.out.println(directoryPath + " is not a directory.");
-            }
-        } else {
-            System.out.println(directoryPath + " does not exist.");
-        }
+    public Graphic(Matrice matrice) {
+        this.matrice = matrice;
         setTitle("Sokoban");
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,7 +52,6 @@ public class Graphic extends JFrame implements Runnable {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Matrice matrice = new Matrice("niveaux/" + fileNames[cpt]);
                 char[][] matrix = matrice.getmatrice();
 
                 for (i = 0; i < matrice.getRows(); i++) {
@@ -123,6 +95,14 @@ public class Graphic extends JFrame implements Runnable {
     public String fileName() {
         return fileNames[cpt];
     }
+    public Matrice getmatrice(){
+        return matrice;
+    }
+
+    public void setMatrice(Matrice matrice) {
+        this.matrice = matrice;
+        repaint(); // Trigger a repaint to update the display
+    }
 
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -134,7 +114,8 @@ public class Graphic extends JFrame implements Runnable {
         while (null != gameThread) {
             // 1 Update character position.
             // 2 Draw the screen with updated information.
-
+            update();
+            SwingUtilities.invokeLater(() -> gamePanel.repaint());
             try {
                 Thread.sleep(2000); // Adjust the delay as needed
             } catch (InterruptedException e) {
@@ -145,7 +126,7 @@ public class Graphic extends JFrame implements Runnable {
     }
 
     public void update() {
-        cpt++;
+        
         // Update game logic
     }
 

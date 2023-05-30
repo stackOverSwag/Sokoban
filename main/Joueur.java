@@ -56,6 +56,6 @@
     public void setY(int y) {
         this.y = y;
     }
-//pour le moment ceci est un test je pense que ca va vite changer
+
 }
  

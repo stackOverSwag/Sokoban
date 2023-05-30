@@ -117,7 +117,7 @@ public class Graphic extends JFrame implements Runnable {
             update();
             SwingUtilities.invokeLater(() -> gamePanel.repaint());
             try {
-                Thread.sleep(2000); // Adjust the delay as needed
+                Thread.sleep(200); // Adjust the delay as needed
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

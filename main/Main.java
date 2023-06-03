@@ -1,15 +1,13 @@
 import javax.swing.*;
 import java.util.List;
-import java.awt.Color;
 import java.io.File;
 
 
 
 public class Main {
     public static void main (String[] args) {
-
-        int i=0, cpt=0;
         KeyHandler keyH = new KeyHandler();
+        int cpt=0;  
         String directoryPath = "niveaux/";
         // Create a File object for the directory
         File directory = new File(directoryPath);
@@ -42,13 +40,12 @@ public class Main {
             System.out.println(directoryPath + " does not exist.");
         }
         cpt=0;
-
+//niveaux qui marchent pas (2.3.8.10).txt
         Matrice matrice = new Matrice("niveaux/" + fileNames[cpt]);
         Joueur p=matrice.getJoueurs().get(0);
         matrice.getmatrice();
         Graphic game = new Graphic(matrice);
         game.setVisible(true);
-        game.setTitle("Sokoban");
         game.setResizable(false);
         game.pack();
         game.setLocationRelativeTo(null);
@@ -56,43 +53,45 @@ public class Main {
         game.addKeyListener(keyH); // Add KeyHandler to the game
         game.setFocusable(true); 
         boolean gameWon = false;
-        boolean gamePaused = false;
+        boolean gamereset = false;
         Direction s;
         
         for(;;){
-            while (!gameWon && !gamePaused) {
-                s = keyH.getDirection();
-                //while(s== Direction.NONE){};
+            while (!gameWon && !gamereset) {
                 
+                s = keyH.getDirection();
                 System.out.println(matrice.toString());
-                System.out.println("yes");
-                try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
                 suivant(p, s, matrice);
-                game.setMatrice(matrice);
-                gameWon = keyH.Pause();
-                gamePaused = false;
+                gameWon = victory(matrice);
+                gamereset = keyH.Pause();
+                try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+
             }
 
             if (gameWon) {
                 System.out.println("GG well played! You are a Top G");
                 
                 try {
-                    Thread.sleep(2000); // Adjust the delay as needed
+                    Thread.sleep(200); // Adjust the delay as needed
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 cpt++;
                 matrice = new Matrice("niveaux/" + fileNames[cpt]);
                 matrice.getmatrice();
+                game.updateMatrice(matrice);
                 p=matrice.getJoueurs().get(0);
-                game.setMatrice(matrice);
                 gameWon=false;
                 
             }
-            else if (gamePaused) {
-                System.out.println("Game paused.");
+            else if (gamereset) {
+                System.out.println("HAHAHAAA, try again");
                 try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-                gamePaused=false;
+                matrice = new Matrice("niveaux/" + fileNames[cpt]);
+                matrice.getmatrice();
+                game.updateMatrice(matrice);
+                p=matrice.getJoueurs().get(0);
+                gamereset=false;
             } 
         }
     

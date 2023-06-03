@@ -9,15 +9,14 @@ import java.io.IOException;
 public class Graphic extends JFrame implements Runnable {
 
     // Screen settings
-    final int scale = 5;
+    final int scale = 4;
     final int tileSize = 16 * scale; // 48x48 tile
-    final int maxScreenCol = 12;
-    final int maxScreenRow = 12;
+    final int maxScreenCol = 16;
+    final int maxScreenRow = 16;
     final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     final int screenHeight = tileSize * maxScreenRow; // 768 pixels
     int j = 0;
     int i = 0;
-    int cpt = 0;
     Thread gameThread;
     JPanel gamePanel;
     String[] fileNames;
@@ -28,14 +27,15 @@ public class Graphic extends JFrame implements Runnable {
     private BufferedImage victoryImage;
     private BufferedImage champImage;
     private Matrice matrice;
-
+    private char[][] matrix;
+    KeyHandler keyH = new KeyHandler();
     public Graphic(Matrice matrice) {
         this.matrice = matrice;
+        this.matrix = matrice.getmatrice();
         setTitle("Sokoban");
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        cpt = 0;
         try {
             blockImage = loadImage("images/boite.png");
             playerImage = loadImage("images/mario.png");
@@ -52,7 +52,7 @@ public class Graphic extends JFrame implements Runnable {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                char[][] matrix = matrice.getmatrice();
+                
 
                 for (i = 0; i < matrice.getRows(); i++) {
                     for (j = 0; j < matrice.getCols(); j++) {
@@ -92,17 +92,11 @@ public class Graphic extends JFrame implements Runnable {
         setLocationRelativeTo(null);
     }
 
-    public String fileName() {
-        return fileNames[cpt];
-    }
     public Matrice getmatrice(){
         return matrice;
     }
 
-    public void setMatrice(Matrice matrice) {
-        this.matrice = matrice;
-        repaint(); // Trigger a repaint to update the display
-    }
+
 
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -114,10 +108,9 @@ public class Graphic extends JFrame implements Runnable {
         while (null != gameThread) {
             // 1 Update character position.
             // 2 Draw the screen with updated information.
-            update();
             SwingUtilities.invokeLater(() -> gamePanel.repaint());
             try {
-                Thread.sleep(200); // Adjust the delay as needed
+                Thread.sleep(60); // Adjust the delay as needed
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -125,9 +118,10 @@ public class Graphic extends JFrame implements Runnable {
         }
     }
 
-    public void update() {
-        
-        // Update game logic
+    public void updateMatrice(Matrice newMatrice) {
+        this.matrice=newMatrice;
+        this.matrix = newMatrice.getmatrice();
+        repaint(); // Trigger a repaint to update the display
     }
 
     private BufferedImage loadImage(String imagePath) throws IOException {

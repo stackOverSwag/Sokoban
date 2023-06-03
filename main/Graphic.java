@@ -4,7 +4,8 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Graphic extends JFrame implements Runnable {
 
@@ -90,6 +91,19 @@ public class Graphic extends JFrame implements Runnable {
         add(gamePanel);
         pack();
         setLocationRelativeTo(null);
+        gamePanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int col = (e.getX() - (screenWidth - (matrice.getCols() * tileSize)) / 2) / tileSize;
+                int row = (e.getY() - (screenHeight - (matrice.getRows() * tileSize)) / 2) / tileSize;
+                if (row >= 0 && row < matrice.getRows() && col >= 0 && col < matrice.getCols()) {
+                    // Move the player to the clicked position
+                    matrice.movePlayer(row, col);
+                    // Repaint the game panel
+                    gamePanel.repaint();
+                }
+            }
+        });
     }
 
     public Matrice getmatrice(){

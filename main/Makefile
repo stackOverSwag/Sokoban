@@ -14,7 +14,7 @@ JC = javac
 
 
 
-CLASSES = Mur.java Boite.java Cible.java Joueur.java Matrice.java Graphic.java KeyHandler.java Direction.java Main.java DirectoryReader.java
+CLASSES = Mur.java Boite.java Cible.java Chemin.java Joueur.java Matrice.java Graphic.java KeyHandler.java Direction.java Main.java DirectoryReader.java
 
 
 

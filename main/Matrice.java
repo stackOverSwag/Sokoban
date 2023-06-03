@@ -123,6 +123,67 @@ import java.util.Scanner;
     public List<Mur> getMurs() {
         return murs;
     }
+    public void movePlayer(int row, int col) {
+    List<Joueur> joueurs = getJoueurs();
+    Joueur joueur = joueurs.get(0);
+    
+    if (estLibre(joueur, row, col)) {
+        setElement(joueur.getX(), joueur.getY(), ' '); // Effacer l'ancienne position du joueur
+        joueur.setX(row);
+        joueur.setY(col);
+        setElement(row, col, 'A'); // Définir la nouvelle position du joueur
+    }
+}
+public boolean estLibre(Joueur joueur, int row, int col) {
+    char[][] matrice = getmatrice();
+    List<Boite> boites = getBoites();
+
+    // Vérifier si la case est libre et si aucune boîte ne bloque le chemin
+    if (matrice[row][col] == ' ' && !isBlockedByBox(boites, row, col)) {
+        // Vérifier si le joueur se déplace horizontalement ou verticalement
+        if (row == joueur.getX()) {
+            int start = Math.min(col, joueur.getY());
+            int end = Math.max(col, joueur.getY());
+            for (int c = start; c <= end; c++) {
+                if (matrice[row][c] == 'B' && !isBoxMoved(boites, row, c, joueur.getX(), end)) {
+                    return false;
+                }
+            }
+        } else if (col == joueur.getY()) {
+            int start = Math.min(row, joueur.getX());
+            int end = Math.max(row, joueur.getX());
+            for (int r = start; r <= end; r++) {
+                if (matrice[r][col] == 'B' && !isBoxMoved(boites, r, col, end, joueur.getY())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+private boolean isBlockedByBox(List<Boite> boites, int row, int col) {
+    for (Boite boite : boites) {
+        if (boite.getX() == row && boite.getY() == col) {
+            return true;
+        }
+    }
+    return false;
+}
+
+private boolean isBoxMoved(List<Boite> boites, int row, int col, int newRow, int newCol) {
+    for (Boite boite : boites) {
+        if (boite.getX() == row && boite.getY() == col) {
+            if (boite.getX() == newRow && boite.getY() == newCol) {
+                return true;
+            }
+            break;
+        }
+    }
+    return false;
+}
+
      
     @Override
     public String toString() {

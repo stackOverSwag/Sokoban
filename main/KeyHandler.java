@@ -12,7 +12,6 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        
         int code = e.getKeyCode(); // returns number of key pressed
         
         if (code == KeyEvent.VK_ESCAPE) {
@@ -30,49 +29,36 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
         }
-   
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-        int code = e.getKeyCode();
-
-        if (code == KeyEvent.VK_ESCAPE) {
-            escape = false;
-        }
-        if (code == KeyEvent.VK_W || code == KeyEvent.VK_Z) {
-            upPressed = false;
-        }
-       
-        if (code == KeyEvent.VK_S) {
-            downPressed = false;
-        }
-        
-        if (code == KeyEvent.VK_A || code == KeyEvent.VK_Q) {
-            leftPressed = false;
-        }
-    
-        if (code == KeyEvent.VK_D) {
-            rightPressed = false;
-        }
-    }
+    public void keyReleased(KeyEvent e) {} // NOT USED EVER
 
     public Direction getDirection() {
         if (upPressed && !downPressed && !leftPressed && !rightPressed) {
+            upPressed = false;
             return Direction.NORD;
         } else if (!upPressed && downPressed && !leftPressed && !rightPressed) {
+            downPressed = false;
             return Direction.SUD;
         } else if (!upPressed && !downPressed && leftPressed && !rightPressed) {
+            leftPressed = false;
             return Direction.OUEST;
         } else if (!upPressed && !downPressed && !leftPressed && rightPressed) {
+            rightPressed = false;
             return Direction.EST;
         }
+        upPressed = false;
+        downPressed = false;
+        leftPressed = false;
+        rightPressed = false;
         return Direction.NONE; // Default direction when no arrow keys are pressed
     }
     
 
     public boolean Pause(){
-        return this.escape;
+        boolean pause = this.escape;
+        this.escape = false;
+        return pause;
     }
 }

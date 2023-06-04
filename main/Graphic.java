@@ -29,10 +29,14 @@ public class Graphic extends JFrame implements Runnable {
     private BufferedImage champImage;
     private Matrice matrice;
     private char[][] matrix;
+    private int rows;
+    private int cols;
     KeyHandler keyH = new KeyHandler();
     public Graphic(Matrice matrice) {
         this.matrice = matrice;
         this.matrix = matrice.getmatrice();
+        this.rows=matrice.getRows();
+        this.cols=matrice.getCols();
         setTitle("Sokoban");
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,10 +59,10 @@ public class Graphic extends JFrame implements Runnable {
                 super.paintComponent(g);
                 
 
-                for (i = 0; i < matrice.getRows(); i++) {
-                    for (j = 0; j < matrice.getCols(); j++) {
-                        int x = (j * tileSize) + (screenWidth - (matrice.getCols() * tileSize)) / 2;
-                        int y = (i * tileSize) + (screenHeight - (matrice.getRows() * tileSize)) / 2;
+                for (i = 0; i < rows; i++) {
+                    for (j = 0; j < cols; j++) {
+                        int x = (j * tileSize) + (screenWidth - (cols * tileSize)) / 2;
+                        int y = (i * tileSize) + (screenHeight - (rows * tileSize)) / 2;
 
                         if (Character.isUpperCase(matrix[i][j]) && matrix[i][j] != 'A') {
                             // Draw the loaded image for uppercase blocks
@@ -106,11 +110,6 @@ public class Graphic extends JFrame implements Runnable {
         });
     }
 
-    public Matrice getmatrice(){
-        return matrice;
-    }
-
-
 
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -135,6 +134,9 @@ public class Graphic extends JFrame implements Runnable {
     public void updateMatrice(Matrice newMatrice) {
         this.matrice=newMatrice;
         this.matrix = newMatrice.getmatrice();
+        this.rows=newMatrice.getRows();
+        this.cols=newMatrice.getCols();
+        
         repaint(); // Trigger a repaint to update the display
     }
 

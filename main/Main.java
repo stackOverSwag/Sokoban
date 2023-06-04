@@ -40,7 +40,7 @@ public class Main {
             System.out.println(directoryPath + " does not exist.");
         }
         cpt=0;
-//niveaux qui marchent pas (2.3.8.10).txt
+
         Matrice matrice = new Matrice("niveaux/" + fileNames[cpt]);
         Joueur p=matrice.getJoueurs().get(0);
         matrice.getmatrice();
@@ -98,7 +98,7 @@ public class Main {
     }
     
     public static boolean suivant(Joueur p, Direction s, Matrice matrice) {
-        if (estlibre(p, s, matrice)) {
+        if (estlibre(p, s, matrice)){
             try { Thread.sleep(20); } catch (InterruptedException e) { e.printStackTrace(); }
             switch (s) {
                 case EST:
@@ -164,7 +164,7 @@ public class Main {
             return true;
         }
         else{
-            int n=1,i=2;
+            int n=1,i=2,j=0;
             outerLoop:for(;;){
                 switch(s) {
                 case EST: 
@@ -192,37 +192,34 @@ public class Main {
                 case EST: 
                     if (matrice.getElement(p.getX(), p.getY() + n) == '#') return false;
                     if (matrice.getElement(p.getX(), p.getY()) == 'a')
-                        matrice.setElement(p.getX(), p.getY(), '@');
-                    else{
-                        if (matrice.getElement(p.getX(), p.getY()) == 'b')
-                            matrice.setElement(p.getX(), p.getY(), '@');
-                        else
-                            matrice.setElement(p.getX(), p.getY(), ' ');
-                    }
-                    for(i=1;i<=n;i++){
-                        if(i==1){
-                            if (matrice.getElement(p.getX(), p.getY()+i) == 'b')
-                                matrice.setElement(p.getX(), p.getY()+i, 'a');
-                            else{
-                                matrice.setElement(p.getX(), p.getY()+i, 'A');
-                            }
-                        }
+                    matrice.setElement(p.getX(), p.getY(), '@');
+                else
+                    matrice.setElement(p.getX(), p.getY(), ' ');
+                
+                for(i=1;i<=n;i++){
+                    if(i==1){
+                        if (matrice.getElement(p.getX(), p.getY()+i) == 'b')
+                            matrice.setElement(p.getX(), p.getY()+i, 'a');
                         else{
-                            if (matrice.getElement(p.getX(), p.getY()+i) == '@')
-                                matrice.setElement(p.getX(), p.getY()+i, 'b');
-                            else{
-                                if(matrice.getElement(p.getX(), p.getY()+i)=='b'){
-                                    matrice.setElement(p.getX(), p.getY()+i, 'b');
-                                    matrice.setElement(p.getX(), p.getY()+(i+1), 'B');
-                                }   
-                                else{
-                                    matrice.setElement(p.getX(), p.getY()+i, 'B');
-                                }
-                                    
-                            }
+                            matrice.setElement(p.getX(), p.getY()+i, 'A');
                         }
-                        
                     }
+                    else{
+                      for(j=0;i+j<=n;j++){
+                            if(matrice.getElement(p.getX(), p.getY()+(i+j))=='b')
+                                matrice.setElement(p.getX(), p.getY()+(i+j), 'b');
+                            else if(matrice.getElement(p.getX(), p.getY()+(i+j))=='@')
+                                matrice.setElement(p.getX(), p.getY()+(i+j), 'b');
+                            else if(matrice.getElement(p.getX(), p.getY()+(i+j))=='#')
+                                continue;
+                            else 
+                                matrice.setElement(p.getX(), p.getY()+(i+j), 'B');
+                        }
+                    
+                    
+                    }
+                    
+                }
                     p.setY(p.getY() + 1);
                     break;
 
@@ -232,12 +229,9 @@ public class Main {
                     
                     if (matrice.getElement(p.getX(), p.getY()) == 'a')
                         matrice.setElement(p.getX(), p.getY(), '@');
-                    else{
-                        if (matrice.getElement(p.getX(), p.getY()) == 'b')
-                            matrice.setElement(p.getX(), p.getY(), '@');
-                        else
-                            matrice.setElement(p.getX(), p.getY(), ' ');
-                    }
+                    else
+                        matrice.setElement(p.getX(), p.getY(), ' ');
+                    
                     for(i=1;i<=n;i++){
                         if(i==1){
                             if (matrice.getElement(p.getX(), p.getY()-i) == 'b')
@@ -247,18 +241,18 @@ public class Main {
                             }
                         }
                         else{
-                            if (matrice.getElement(p.getX(), p.getY()-i) == '@')
-                                matrice.setElement(p.getX(), p.getY()-i, 'b');
-                            else{
-                                if(matrice.getElement(p.getX(), p.getY()-i)=='b'){
-                                    matrice.setElement(p.getX(), p.getY()-i, 'b');
-                                    matrice.setElement(p.getX(), p.getY()-(i+1), 'B');
-                                }   
-                                else{
-                                    matrice.setElement(p.getX(), p.getY()-i, 'B');
-                                }
-                                    
+                          for(j=0;i+j<=n;j++){
+                                if(matrice.getElement(p.getX(), p.getY()-(i+j))=='b')
+                                    matrice.setElement(p.getX(), p.getY()-(i+j), 'b');
+                                else if(matrice.getElement(p.getX(), p.getY()-(i+j))=='@')
+                                    matrice.setElement(p.getX(), p.getY()-(i+j), 'b');
+                                else if(matrice.getElement(p.getX(), p.getY()-(i+j))=='#')
+                                    continue;
+                                else 
+                                    matrice.setElement(p.getX(), p.getY()-(i+j), 'B');
                             }
+                        
+                        
                         }
                         
                     }
@@ -270,37 +264,34 @@ public class Main {
                 case NORD:
                     if (matrice.getElement(p.getX()- n, p.getY() ) == '#') return false;
                     if (matrice.getElement(p.getX(), p.getY()) == 'a')
-                        matrice.setElement(p.getX(), p.getY(), '@');
-                    else{
-                        if (matrice.getElement(p.getX(), p.getY()) == 'b')
-                            matrice.setElement(p.getX(), p.getY(), '@');
-                        else
-                            matrice.setElement(p.getX(), p.getY(), ' ');
-                    }
-                    for(i=1;i<=n;i++){
-                        if(i==1){
-                            if (matrice.getElement(p.getX()-i, p.getY()) == 'b')
-                                matrice.setElement(p.getX()-i, p.getY(), 'a');
-                            else{
-                                matrice.setElement(p.getX()-i, p.getY(), 'A');
-                            }
-                        }
+                    matrice.setElement(p.getX(), p.getY(), '@');
+                else
+                    matrice.setElement(p.getX(), p.getY(), ' ');
+                
+                for(i=1;i<=n;i++){
+                    if(i==1){
+                        if (matrice.getElement(p.getX()-i, p.getY()) == 'b')
+                            matrice.setElement(p.getX()-i, p.getY(), 'a');
                         else{
-                            if (matrice.getElement(p.getX()-i, p.getY()) == '@')
-                                matrice.setElement(p.getX()-i, p.getY(), 'b');
-                            else{
-                                if(matrice.getElement(p.getX()-i, p.getY())=='b'){
-                                    matrice.setElement(p.getX()-i, p.getY(), 'b');
-                                    matrice.setElement(p.getX()-(i+1), p.getY(), 'B');
-                                }   
-                                else{
-                                    matrice.setElement(p.getX()-i, p.getY(), 'B');
-                                }
-                                    
-                            }
+                            matrice.setElement(p.getX()-i, p.getY(), 'A');
                         }
-                        
                     }
+                    else{
+                      for(j=0;i+j<=n;j++){
+                            if(matrice.getElement(p.getX()-(i+j), p.getY())=='b')
+                                matrice.setElement(p.getX()-(i+j), p.getY(), 'b');
+                            else if(matrice.getElement(p.getX()-(i+j), p.getY())=='@')
+                                matrice.setElement(p.getX()-(i+j), p.getY(), 'b');
+                            else if(matrice.getElement(p.getX()-(i+j), p.getY())=='#')
+                                continue;
+                            else 
+                                matrice.setElement(p.getX()-(i+j), p.getY(), 'B');
+                        }
+                    
+                    
+                    }
+                    
+                }
                     p.setX(p.getX() - 1);
                     break;
 
@@ -308,13 +299,10 @@ public class Main {
                 case SUD:
                     if (matrice.getElement(p.getX()+ n, p.getY() ) == '#') return false;
                     if (matrice.getElement(p.getX(), p.getY()) == 'a')
-                        matrice.setElement(p.getX(), p.getY(), '@');
-                    else{
-                        if (matrice.getElement(p.getX(), p.getY()) == 'b')
-                            matrice.setElement(p.getX(), p.getY(), '@');
-                        else
-                            matrice.setElement(p.getX(), p.getY(), ' ');
-                    }
+                    matrice.setElement(p.getX(), p.getY(), '@');
+                    else
+                        matrice.setElement(p.getX(), p.getY(), ' ');
+                    
                     for(i=1;i<=n;i++){
                         if(i==1){
                             if (matrice.getElement(p.getX()+i, p.getY()) == 'b')
@@ -324,18 +312,18 @@ public class Main {
                             }
                         }
                         else{
-                            if (matrice.getElement(p.getX()+i, p.getY()) == '@')
-                                matrice.setElement(p.getX()+i, p.getY(), 'b');
-                            else{
-                                if(matrice.getElement(p.getX()+i, p.getY())=='b'){
-                                    matrice.setElement(p.getX()+i, p.getY(), 'b');
-                                    matrice.setElement(p.getX()+(i+1), p.getY(), 'B');
-                                }   
-                                else{
-                                    matrice.setElement(p.getX()+i, p.getY(), 'B');
-                                }
-                                    
+                        for(j=0;i+j<=n;j++){
+                            if(matrice.getElement(p.getX()+(i+j), p.getY())=='b')
+                                matrice.setElement(p.getX()+(i+j), p.getY(), 'b');
+                            else if(matrice.getElement(p.getX()+(i+j), p.getY())=='@')
+                                matrice.setElement(p.getX()+(i+j), p.getY(), 'b');
+                            else if(matrice.getElement(p.getX()+(i+j), p.getY())=='#')
+                                continue;
+                            else 
+                                matrice.setElement(p.getX()+(i+j), p.getY(), 'B');
                             }
+                        
+                        
                         }
                         
                     }

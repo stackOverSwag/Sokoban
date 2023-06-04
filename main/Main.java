@@ -86,7 +86,7 @@ public class Main {
             }
             else if (gamereset) {
                 System.out.println("HAHAHAAA, try again");
-                try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+                try { Thread.sleep(16); } catch (InterruptedException e) { e.printStackTrace(); }
                 matrice = new Matrice("niveaux/" + fileNames[cpt]);
                 matrice.getmatrice();
                 game.updateMatrice(matrice);

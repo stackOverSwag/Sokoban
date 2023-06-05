@@ -15,29 +15,33 @@ public class Main {
         File[] files = directory.listFiles();
         // Check if the directory exists
         String[] fileNames={};
-        if (directory.exists()) {
-            // Check if it's a directory
-            if (directory.isDirectory()) {
-                // Check if any files exist in the directory
-                if (files != null && files.length > 0) {
-                    // Print the filenames and store them in an array
-                    fileNames = new String[files.length];
-                    for (cpt = 0; cpt < files.length; cpt++) {
-                        File file = files[cpt];
-                        String fileName = file.getName();
-                        if (fileName.substring(fileName.lastIndexOf(".") + 1).equalsIgnoreCase("txt")) {
-                            fileNames[cpt] = fileName;
-                        }
-                    }
-                    // Use the fileNames array as needed
-                } else {
-                    System.out.println("No files found in the directory.");
-                }
-            } else {
-                System.out.println(directoryPath + " is not a directory.");
-            }
-        } else {
+        // Check if directory exists
+        // Check if directory exists
+        if (!directory.exists()) {
             System.out.println(directoryPath + " does not exist.");
+            System.exit(1);
+        }
+                
+        // Check if it's a directory
+        if (!directory.isDirectory()) {
+            System.out.println(directoryPath + " is not a directory.");
+            System.exit(1);
+        }
+
+        // Check if any files exist in the directory
+        if (null == files || files.length <= 0) {
+            System.out.println("No files found in the directory.");
+            System.exit(1);
+        }
+
+        // Print the filenames and store them in an array
+        fileNames = new String[files.length];
+        for (cpt = 0; cpt < files.length; cpt++) {
+            File file = files[cpt];
+            String fileName = file.getName();
+            if (fileName.substring(fileName.lastIndexOf(".") + 1).equalsIgnoreCase("txt")) {
+                fileNames[cpt] = fileName;
+            }
         }
         cpt=0;
 
@@ -62,7 +66,7 @@ public class Main {
                 s = keyH.getDirection();
                 System.out.println(matrice.toString());
                 suivant(p, s, matrice);
-                gameWon = victory(matrice);
+                gameWon =victory(matrice);
                 gamereset = keyH.Pause();
                 try { Thread.sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
 
@@ -77,10 +81,14 @@ public class Main {
                     e.printStackTrace();
                 }
                 cpt++;
-                matrice = new Matrice("niveaux/" + fileNames[cpt]);
-                matrice.getmatrice();
-                game.updateMatrice(matrice);
-                p=matrice.getJoueurs().get(0);
+                if(cpt<11){
+                    matrice = new Matrice("niveaux/" + fileNames[cpt]);
+                    matrice.getmatrice();
+                    game.updateMatrice(matrice);
+                    p=matrice.getJoueurs().get(0);
+                }
+                else 
+                    return;
                 gameWon=false;
                 
             }

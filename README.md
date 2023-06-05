@@ -1,17 +1,17 @@
 # Java-game
 Bienvenue dans notre jeu Java Game qui est un Sokoban inspiré de Patrick's Parabox dans le monde de Mario.
 
-## Abstract:
+## Abstracte :
 Sokoban est un jeu de puzzle 2D dans lequel le joueur doit déplacer des boîtes dans les cibles désignées d'un labyrinthe. Le joueur peut déplacer plusieurs boîtes à la fois en poussant vers l'avant. Il est possible de redémarrer un niveau si un état insoluble est atteint. Un état insoluble est un état dans lequel il n'est pas possible de déplacer une boîte souhaitée sur la cible requise. Dans ce cas, appuyez sur `échap` pour récommencer le niveau.
 
 
-## Pour lancer le jeu
+## Lancer le jeu :
 ```
 Dans le terminal, tapez la suite de commandes:
 $ make
 $ Java Main 
 ```
-## Controles fr
+## Controles fr :
 ```
 "z" : mouvement HAUT
 "q" : mouvement GAUCHE
@@ -19,7 +19,7 @@ $ Java Main
 "d" : mouvement DROITE
 ```
 
-## Controles en
+## Controles en :
 ```
 "w" : mouvement HAUT
 "a" : mouvement GAUCHE
@@ -27,10 +27,10 @@ $ Java Main
 "d" : mouvement DROITE
 ```
 
-## Quitter
+## Quitter :
 Fremez la fenetre et la programme va s'arrêter.
 
-## Crédits 
+## Crédits :
 Rayan Z, Alex B, Matthias B, Jeremy D, Chanez A.
 (Voir le rapport du projet/les rapports personales pour la distribution des rôles)
 

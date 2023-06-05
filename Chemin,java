@@ -1,0 +1,115 @@
+public class Chemin {
+    public void movePlayer(int row, int col) {
+        List<Joueur> joueurs = getJoueurs();
+        Joueur joueur = joueurs.get(0);
+
+        if (estLibre(joueur, row, col)) {
+            setElement(joueur.getX(), joueur.getY(), ' '); // Effacer l'ancienne positiondu joueur
+            joueur.setX(row);
+            joueur.setY(col);
+            setElement(row, col, 'A'); // Définir la nouvelle position du joueur
+        }
+    }
+    public static boolean dansMatrice(char[][] matrice, int x, int y) {
+        int col = matrice.length;
+        int ligne = matrice[0].length;
+        return (x >= 1 && x < ligne - 1 && y >= 1 && y < col - 1);
+    }
+
+    // permet d'interchanger les places une a une jusqu'a la place qu'on veut
+    // atteindre
+    public void changerPlace(Coordonnee[] chemin, char[][] matrice) {
+        for (int i = 0; i < chemin.length - 1; i++) {
+            Coordonnee current = chemin[i];
+            Coordonnee next = chemin[i + 1];
+            System.out.println(
+                    "Déplacer les cases de (" + current.x + ", " + current.y + ") à (" + next.x + ", " + next.y + ")");
+            movePlayer(next.x, next.y);
+            wait(700);
+            /*
+            * if (current.x - next.x == 1) {
+            * // a gauche;
+            * } else if (current.x - next.x == -1) {
+            * // a droite;
+            * } else {
+            * // contiue;
+            * }
+            * if (current.y - next.y == 1) {
+            * // a gauche;
+            * } else if (current.y - next.y == -1) {
+            * // a droite;
+            * } else {
+            * // contiue;
+            * }
+            */
+        }
+    }
+
+    // Affiche si le chemin est trouvable ou non, si oui affiche le chemin a prendre
+    // et est mis dans un tableau de coordonnees
+    public void afficherChemin(Coordonnee destination, char[][] matrice) {
+        if (destination == null) {
+            System.out.println("Chemin introuvable !");
+            return;
+        }
+        int tailleChemin = destination.dist;
+        // chemin va contenir toutes les coordonnées du chemin a parcourir
+        Coordonnee[] chemin = new Coordonnee[tailleChemin + 1];
+
+        Coordonnee current = destination;
+        for (int i = tailleChemin; i >= 0; i--) {
+            chemin[i] = current;
+            current = current.parent;
+
+        }
+        System.out.println("Chemin trouvé !");
+        // affiche les coordonnées ou passer
+        /*
+        * for (int i = 0; i <=tailleChemin; i++)
+        * System.out.println("(" + chemin[i].x + ", " + chemin[i].y + ")");
+        */
+
+        changerPlace(chemin, matrice);
+    }
+
+    // fais une recherche en largeur de la matrice de la coordonnee source pour
+    // trouver la coordonnee destination
+    public void resolution(char[][] matrice, Coordonnee source, Coordonnee destination) {
+        int col = matrice.length;
+        int ligne = matrice[0].length;
+        boolean[][] visite = new boolean[ligne][col];// pour savoir si les cases ont deja été visité ou non par le
+                                                    // programme
+
+        int[] rowOffset = { -1, 0, 0, 1 };// -1 pour aller a gauche les deux 0 pour ne pas bouger et 1 pour aller a
+                                        // droite
+        int[] colOffset = { 0, -1, 1, 0 };// 0 ne pas bouger -1 pour aller a la case d'en haut +1 aller case d'en bas
+
+        Queue<Coordonnee> queue = new LinkedList<>();// la queue pour mettre chaque coordonne de dans
+        queue.add(source);
+        visite[source.x][source.y] = true;// case de source true car visité
+
+        while (!queue.isEmpty()) {
+            // recupere et spprime la tete de la queue
+            Coordonnee current = queue.poll();
+
+            // regarde si la case ou on est est la meme que la destination
+            if (current.x == destination.x && current.y == destination.y) {
+                afficherChemin(current, matrice);
+            }
+
+            // recherche toute les cases aux alentours de la case ou l'on est
+            for (int i = 0; i < 4; i++) {
+                int newx = current.x + rowOffset[i];
+                int newy = current.y + colOffset[i];
+
+                if (dansMatrice(matrice, newx, newy) && matrice[newx][newy] == ' ' && !visite[newx][newy]) {
+                    visite[newx][newy] = true;
+                    Coordonnee aCote = new Coordonnee(newx, newy, current.dist + 1, current);
+                    queue.add(aCote);
+                }
+            }
+
+        }
+        afficherChemin(null, matrice);
+    }
+}

@@ -9,7 +9,15 @@ JAVA = java
 .java.class:
 	$(JC) $(JFLAGS) $*.java
 
-CLASSES = Mur.java Boite.java Cible.java Joueur.java Matrice.java Graphic.java KeyHandler.java Direction.java Main.java
+CLASSES = Mur.java \
+	Boite.java \
+	Cible.java \
+	Joueur.java \
+	Matrice.java \
+	Graphic.java \
+	KeyHandler.java \
+	Direction.java \
+	Main.java
 
 default: run
 

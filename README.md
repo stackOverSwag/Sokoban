@@ -7,18 +7,27 @@ Dans le terminal, tapez la suite de commandes:
 $ make
 $ Java Main 
 ```
-## Controles
+## Controles fr
 ```
-"q" : mouvement GAUCHE
 "z" : mouvement HAUT
-"d" : mouvement DROITE
+"q" : mouvement GAUCHE
 "s" : mouvement BAS
+"d" : mouvement DROITE
 ```
+
+## Controles en
+```
+"w" : mouvement HAUT
+"a" : mouvement GAUCHE
+"s" : mouvement BAS
+"d" : mouvement DROITE
+```
+
 ## Quitter
 Cliquez sur la touche `échap` pour quitter le jeu.
 
 ## Crédits 
-Chanez A, Alex B, Matthias B, Jeremy D, Rayan Z.
+Rayan Z, Alex B, Matthias B, Jeremy D, Chanez A.
 
 This is a project that mimics Sokoban, a game created by Hiroyuki Imabayashi in 1981.
 
